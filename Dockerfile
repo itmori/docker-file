@@ -1,7 +1,7 @@
 FROM centos:latest
 
 # 作成者情報
-MAINTAINER TomoyaMoriyama <frostnday@gmail.com>
+MAINTAINER mori <frostnday@gmail.com>
 
 # php
 RUN yum install -y https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm http://rpms.famillecollet.com/enterprise/7/remi/x86_64/remi-release-7.4-1.el7.remi.noarch.rpm
@@ -10,7 +10,7 @@ RUN yum-config-manager --enable remi,remi-php71 && yum clean all
 RUN yum install -y git php php-gd php-intl php-fpm php-tidy php-pdo php-cli php-process php-xml php-mysql php-mbstring php-bcmath php-pecl-imagick php-pecl-zip php-pecl-xdebug vim-enhanced
 RUN yum update -y
 
-# composer install
+# composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin
 
 # nginx
@@ -18,11 +18,13 @@ RUN yum install -y http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-
 RUN yum install -y --enablerepo=nginx nginx
 RUN chmod -R 755 /var/www/
 
-# その他
+# 設定ファイル上書き
 RUN curl https://raw.githubusercontent.com/itmori/docker-file/master/nginx.conf > /etc/nginx/nginx.conf
 RUN curl https://raw.githubusercontent.com/itmori/docker-file/master/www.conf > /etc/php-fpm.d/www.conf
 RUN curl https://raw.githubusercontent.com/itmori/docker-file/master/15-xdebug.ini > /etc/php.d/15-xdebug.ini
+RUN curl https://raw.githubusercontent.com/itmori/docker-file/master/vimrc > /etc/vimrc
 
+# 自動起動
 RUN chkconfig nginx on
 RUN chkconfig php-fpm on
 
