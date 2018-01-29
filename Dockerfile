@@ -16,6 +16,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin
 # nginx
 RUN yum install -y http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
 RUN yum install -y --enablerepo=nginx nginx
+RUN nginx -t
 RUN chmod -R 755 /var/www/
 
 # 設定ファイル上書き
